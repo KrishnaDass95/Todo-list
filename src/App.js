@@ -54,6 +54,7 @@ const App = () => {
         <button>Add TODO</button>
       </form>
       <h1>Todos</h1>
+      {todos.length === 0 && "No Todos"}
       {todos.map((todo) => {
         return (
           <li key={todo.id}>
