@@ -5,19 +5,39 @@ const App = () => {
   const [newItem, setNewItem] = useState("");
   const [todos, setTodos] = useState([]);
 
-  const addTodo = e => {
+  const addTodo = (e) => {
     e.preventDefault();
 
-    setTodos(currentState => {
+    setTodos((currentState) => {
       return [
-        ...currentState, {
+        ...currentState,
+        {
           id: crypto.randomUUID(),
           title: newItem,
-          completed: false
-        }
-      ]
-    })
+          completed: false,
+        },
+      ];
+    });
     setNewItem("");
+  };
+
+  function toggleTodo(id, completed){
+    setTodos(currentState => {
+      return currentState.map(todo => {
+        if(todo.id === id){
+          return {...todo, completed}
+        }
+
+        return todo
+      })
+    })
+  }
+
+  const deleteTodo = (id) => {
+    setTodos(currentState => {
+      return currentState.filter(todo => todo.id !== id)
+    })
+
   }
 
   return (
@@ -26,7 +46,7 @@ const App = () => {
         <label htmlFor="todo">Enter new item</label>
         <input
           value={newItem}
-          onChange={e => setNewItem(e.target.value)}
+          onChange={(e) => setNewItem(e.target.value)}
           type="text"
           placeholder="write here"
           id="todo"
@@ -36,16 +56,16 @@ const App = () => {
       <h1>Todos</h1>
       {todos.map((todo) => {
         return (
-          <div key={todo.id}>
-          <label>
-        <input type="checkbox"
-        checked={todo.completed}
-        ></input>
-        {todo.title}
-      </label>
-      <button>Delete</button>
-      </div>
-        )
+          <li key={todo.id}>
+            <label>
+              <input type="checkbox" checked={todo.completed}
+              onChange={e => toggleTodo(todo.id, e.target.completed)}
+              ></input>
+              {todo.title}
+            </label>
+            <button onClick={e => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        );
       })}
     </>
   );
