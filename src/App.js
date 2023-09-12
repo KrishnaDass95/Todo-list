@@ -2,12 +2,17 @@ import { useState } from "react";
 import "./style.css";
 
 const App = () => {
+  // this is for the search field
   const [newItem, setNewItem] = useState("");
+  // array that holds all the todos in an object form
   const [todos, setTodos] = useState([]);
 
   const addTodo = (e) => {
+    // form does not refresh
     e.preventDefault();
-
+    
+    // Whenever you need values from a previous state, you need to use a function to call prev state 
+    // and return a new state
     setTodos((currentState) => {
       return [
         ...currentState,
