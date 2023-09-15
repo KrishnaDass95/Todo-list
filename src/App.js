@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./style.css";
 import Form from "./components/Form";
+import TodoList from "./components/TodoList";
 
 const App = () => {
   // array that holds all the todos in an object form
@@ -45,22 +46,8 @@ const App = () => {
     <>
     <Form addTodo={addTodo}/>
       <h1>Todos</h1>
-      {todos.length === 0 && "No Todos"}
-      {todos.map((todo) => {
-        return (
-          <li key={todo.id}>
-            <label>
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={(e) => toggleTodo(todo.id, e.target.completed)}
-              ></input>
-              {todo.title}
-            </label>
-            <button onClick={(e) => deleteTodo(todo.id)}>Delete</button>
-          </li>
-        );
-      })}
+      <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo}/>
+      
     </>
   );
 };

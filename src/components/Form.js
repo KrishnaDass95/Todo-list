@@ -7,6 +7,7 @@ const Form = ({ addTodo }) => {
   const handleSubmit = (e) => {
     // form does not refresh
     e.preventDefault();
+    if (newItem === "") return;
 
     addTodo(newItem);
 
