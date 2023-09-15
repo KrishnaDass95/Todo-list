@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import Form from "./components/Form";
 import TodoList from "./components/TodoList";
 
 const App = () => {
   // array that holds all the todos in an object form
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(() => {
+    let localValue = localStorage.getItem("ITEMS");
+    if (localValue === null) return []
+    
+    return JSON.parse(localValue)
+  });
 
-  function addTodo(title){
+  useEffect(() => {
+    localStorage.setItem("ITEMS", JSON.stringify(todos))
+  }, [todos])
+
+  function addTodo(title) {
     // Whenever you need values from a previous state, you need to use a function to call prev state
     // and return a new state
     setTodos((currentState) => {
@@ -21,8 +30,6 @@ const App = () => {
       ];
     });
   }
-  
-  
 
   function toggleTodo(id, completed) {
     setTodos((currentState) => {
@@ -44,10 +51,9 @@ const App = () => {
 
   return (
     <>
-    <Form addTodo={addTodo}/>
+      <Form addTodo={addTodo} />
       <h1>Todos</h1>
-      <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo}/>
-      
+      <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
     </>
   );
 };

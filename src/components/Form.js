@@ -11,7 +11,6 @@ const Form = ({ addTodo }) => {
 
     addTodo(newItem);
 
-    
     setNewItem("");
   };
 
